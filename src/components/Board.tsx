@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 interface SquareProps {
+    id: number
     value: string
     onSquareClick: () => void
 }
@@ -10,6 +11,7 @@ function Square(props: SquareProps) {
     return <button
         className="square"
         onClick={() => props.onSquareClick()}
+        data-testid={'square-' + props.id}
     >
         {props.value}
     </button>
@@ -18,7 +20,7 @@ function Square(props: SquareProps) {
 export default function Board() {
     const [squares, setSquares] = useState(Array(9).fill(""));
     const [xIsNext, setXIsNext] = useState(true);
-    const [gameIsFinished, setGameIsFinished] = useState(false);
+    const [winner, setWinner] = useState('');
     const lines: number[][] = [
         [0, 1, 2],
         [3, 4, 5],
@@ -31,28 +33,29 @@ export default function Board() {
     ];
 
     function showGameState() {
-        if (gameIsFinished) {
-            return `Wygrał ${xIsNext ? 'O' : 'X'}! Brawo!`
+        if (winner) {
+            return winner === 'DRAW' ? 'Remis.' : `Wygrał ${winner}! Brawo!`
         }
         return xIsNext ? "Teraz gra X!" : "Teraz gra O!";
     }
 
-    function calculateWinner(nextSquares: string[]): 'X' | 'O' | null {
+    function calculateWinner(nextSquares: string[]): 'X' | 'O' | 'DRAW' | '' {
+        let allLinesFull = true;
         for (const line of lines) {
             const lineStr = `${nextSquares[line[0]]}${nextSquares[line[1]]}${nextSquares[line[2]]}`;
-            console.log(`${line} = ${lineStr}`);
             if (lineStr === 'XXX') {
                 return 'X';
             } else if (lineStr === 'OOO') {
                 return 'O';
             }
+            allLinesFull = lineStr.length === 3;
         }
-        return null;
+        return allLinesFull ? 'DRAW' : '';
     }
 
     function onSquareClick(index: number) {
         return () => {
-            if (gameIsFinished) {
+            if (winner) {
                 return;
             }
             const nextSquares = squares.slice();
@@ -63,7 +66,7 @@ export default function Board() {
                 setXIsNext(!xIsNext);
                 const winner = calculateWinner(nextSquares);
                 if (winner) {
-                    setGameIsFinished(true);
+                    setWinner(winner);
                 }
             }
         };
@@ -72,22 +75,22 @@ export default function Board() {
     function resetGame() {
         setSquares(Array(9).fill(""));
         setXIsNext(true);
-        setGameIsFinished(false);
+        setWinner('');
     }
 
     return (
         <div>
             <div className="status"><p>{showGameState()}</p></div>
             <div className="board">
-                <Square value={squares[0]} onSquareClick={onSquareClick(0)}/>
-                <Square value={squares[1]} onSquareClick={onSquareClick(1)}/>
-                <Square value={squares[2]} onSquareClick={onSquareClick(2)}/>
-                <Square value={squares[3]} onSquareClick={onSquareClick(3)}/>
-                <Square value={squares[4]} onSquareClick={onSquareClick(4)}/>
-                <Square value={squares[5]} onSquareClick={onSquareClick(5)}/>
-                <Square value={squares[6]} onSquareClick={onSquareClick(6)}/>
-                <Square value={squares[7]} onSquareClick={onSquareClick(7)}/>
-                <Square value={squares[8]} onSquareClick={onSquareClick(8)}/>
+                <Square id={1} value={squares[0]} onSquareClick={onSquareClick(0)}/>
+                <Square id={2} value={squares[1]} onSquareClick={onSquareClick(1)}/>
+                <Square id={3} value={squares[2]} onSquareClick={onSquareClick(2)}/>
+                <Square id={4} value={squares[3]} onSquareClick={onSquareClick(3)}/>
+                <Square id={5} value={squares[4]} onSquareClick={onSquareClick(4)}/>
+                <Square id={6} value={squares[5]} onSquareClick={onSquareClick(5)}/>
+                <Square id={7} value={squares[6]} onSquareClick={onSquareClick(6)}/>
+                <Square id={8} value={squares[7]} onSquareClick={onSquareClick(7)}/>
+                <Square id={9} value={squares[8]} onSquareClick={onSquareClick(8)}/>
             </div>
             <div>
                 <p>
