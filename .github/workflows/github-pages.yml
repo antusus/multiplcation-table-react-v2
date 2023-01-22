@@ -17,6 +17,8 @@ jobs:
           cache: 'yarn'
       - name: Install dependencies
         run: yarn install
+      - name: Test
+        run: npm run test-no-watch
       - name: Deploy
         run: |
           git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
