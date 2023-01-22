@@ -31,7 +31,7 @@ export default function Board() {
     ];
 
     function showGameState() {
-        if(gameIsFinished) {
+        if (gameIsFinished) {
             return `Wygrał ${xIsNext ? 'O' : 'X'}! Brawo!`
         }
         return xIsNext ? "Teraz gra X!" : "Teraz gra O!";
@@ -43,7 +43,7 @@ export default function Board() {
             console.log(`${line} = ${lineStr}`);
             if (lineStr === 'XXX') {
                 return 'X';
-            } else if(lineStr === 'OOO') {
+            } else if (lineStr === 'OOO') {
                 return 'O';
             }
         }
@@ -52,7 +52,7 @@ export default function Board() {
 
     function onSquareClick(index: number) {
         return () => {
-            if(gameIsFinished) {
+            if (gameIsFinished) {
                 return;
             }
             const nextSquares = squares.slice();
@@ -77,23 +77,17 @@ export default function Board() {
 
     return (
         <div>
-            <div><p>{showGameState()}</p></div>
+            <div className="status"><p>{showGameState()}</p></div>
             <div className="board">
-                <div className="board-row">
-                    <Square value={squares[0]} onSquareClick={onSquareClick(0)}/>
-                    <Square value={squares[1]} onSquareClick={onSquareClick(1)}/>
-                    <Square value={squares[2]} onSquareClick={onSquareClick(2)}/>
-                </div>
-                <div className="board-row">
-                    <Square value={squares[3]} onSquareClick={onSquareClick(3)}/>
-                    <Square value={squares[4]} onSquareClick={onSquareClick(4)}/>
-                    <Square value={squares[5]} onSquareClick={onSquareClick(5)}/>
-                </div>
-                <div className="board-row">
-                    <Square value={squares[6]} onSquareClick={onSquareClick(6)}/>
-                    <Square value={squares[7]} onSquareClick={onSquareClick(7)}/>
-                    <Square value={squares[8]} onSquareClick={onSquareClick(8)}/>
-                </div>
+                <Square value={squares[0]} onSquareClick={onSquareClick(0)}/>
+                <Square value={squares[1]} onSquareClick={onSquareClick(1)}/>
+                <Square value={squares[2]} onSquareClick={onSquareClick(2)}/>
+                <Square value={squares[3]} onSquareClick={onSquareClick(3)}/>
+                <Square value={squares[4]} onSquareClick={onSquareClick(4)}/>
+                <Square value={squares[5]} onSquareClick={onSquareClick(5)}/>
+                <Square value={squares[6]} onSquareClick={onSquareClick(6)}/>
+                <Square value={squares[7]} onSquareClick={onSquareClick(7)}/>
+                <Square value={squares[8]} onSquareClick={onSquareClick(8)}/>
             </div>
             <div>
                 <p>
